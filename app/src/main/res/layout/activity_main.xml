@@ -16,6 +16,7 @@
         app:color2="#86FF48"
         app:color3="#FF1111"
         app:color4="#1185FF"
+        app:color5="#11000000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

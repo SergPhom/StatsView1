@@ -30,7 +30,8 @@ class StatsView @JvmOverloads constructor(
                 getColor(R.styleable.StatsView_color1, generateColor()),
                 getColor(R.styleable.StatsView_color2, generateColor()),
                 getColor(R.styleable.StatsView_color3, generateColor()),
-                getColor(R.styleable.StatsView_color4, generateColor())
+                getColor(R.styleable.StatsView_color4, generateColor()),
+                getColor(R.styleable.StatsView_color5, generateColor()),
             )
         }
     }
@@ -38,7 +39,12 @@ class StatsView @JvmOverloads constructor(
     var data: List<Float> = emptyList()
     set(value) {
         var parts = value.takeLast(4)
-        field = parts.map { it / parts.sum() }
+        field = if (parts.size < 4  && parts.sum() < 100F){
+            parts.map { it / 100F }
+        } else{
+            parts.map { it / parts.sum() }
+        }
+
         invalidate()
     }
     private var radius = 0F
@@ -74,12 +80,15 @@ class StatsView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        println(" data $data")
+
         if(data.isEmpty()){
             return
         }
 
         var startAngle = - 90F
+        paint.color = colors.get(4)
+        canvas.drawCircle(center.x ,
+            center.y , radius, paint)
         data.forEachIndexed{ index, datum ->
             val angle = datum * 360
             paint.color = colors.getOrElse(index){generateColor()}
